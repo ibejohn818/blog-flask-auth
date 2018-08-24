@@ -1,6 +1,10 @@
 FROM python:3.6
 
-RUN mkdir /app
-COPY ./api.ini /app/api.ini
+COPY ./requirements.txt /requirements.txt
 
-WORKDIR /app
+RUN pip install -r /requirements.txt
+
+COPY ./api.ini /api.ini
+
+CMD ["/usr/local/bin/uwsgi", "--ini", "/api.ini"]
+
