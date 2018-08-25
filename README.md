@@ -5,8 +5,8 @@ Demo for blog post
 [https://johnchardy.com/blog/flask-authentication-authorization/class-based-decorator.html](https://johnchardy.com/blog/flask-authentication-authorization/class-based-decorator.html) https://johnchardy.com/blog/flask-authentication-authorization/class-based-decorator.html
 
 ## Requirements
-- [Docker](https://www.docker.com/get-started) Docker
-- Docker Compose[Docker Compose](https://docs.docker.com/compose/install/) 
+- [Docker](https://www.docker.com/get-started) 
+- [Docker Compose](https://docs.docker.com/compose/install/) 
 
 ## Instructions
 
