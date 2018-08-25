@@ -1,21 +1,25 @@
-# app
+# Flask Auth Demo
 
-> A Vue.js project
+Demo for blog post
 
-## Build Setup
+[https://johnchardy.com/blog/flask-authentication-authorization/class-based-decorator.html](https://johnchardy.com/blog/flask-authentication-authorization/class-based-decorator.html) https://johnchardy.com/blog/flask-authentication-authorization/class-based-decorator.html
 
-``` bash
-# install dependencies
-npm install
+## Requirements
+- [Docker](https://www.docker.com/get-started) Docker
+- Docker Compose[Docker Compose](https://docs.docker.com/compose/install/) 
 
-# serve with hot reload at localhost:8080
-npm run dev
+## Instructions
 
-# build for production with minification
-npm run build
+To run the demonstration first build the docker images
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+`docker-compose build`
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+Then run the demo by starting the docker compose stack
+
+`docker-compose up`
+
+When the stack is running, visit the demo by opening a web browser and navigating to http://localhost (http://127.0.0.0 http://0.0.0.0)
+
+There you can mock a login session and groups and click the links to view the auth responses.
+
+The flask server is running in hot reload so if you edit the flask app or authorize decorator the flask server will restart.
