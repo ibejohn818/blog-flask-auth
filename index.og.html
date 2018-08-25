@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Flask Auth Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
+        <style type="text/css" media="screen">
+            code_ {
+                border-radius: 12px;
+                padding: 15px;
+                background-color: #e9e9e9;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Flask Auth Demo</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Set Login Session</div>
+                            <div class="card-body">
+                                <form action="/api/login" method="post" accept-charset="utf-8" id='login-form'>
+                                    <div class="form-group">
+                                        <label for="">Username</label>
+                                        <input class="form-control" type="text" name='username' placeholder='Put in any username'>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Groups <small>(Comma separated)</small></label>
+                                        <input class="form-control" type="text" name='groups' placeholder='Comma separate multiple groups'>
+                                    </div>
+                                    <div class="form-actions clearfix">
+                                        <div class="buttons float-right">
+                                            <a class="btn btn-info" href="/api/session" rel="capture">Show Session</a>
+                                            <button class="btn btn-danger" type="button" id='logout-btn'>Logout</button>
+                                            <button class="btn btn-success" type="submit">Login</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <br></br>
+                        <div class="card">
+                            <div class="card-body checks">
+                                <a class="btn btn-primary" href="/api/check-member" rel='capture'>Check Auth Group Member</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header clearfix">
+                                Responses
+                                <div class="float-right">
+                                    <button class="btn btn-sm btn-danger" type="button" id='clear-btn'>Clear</button>
+                                </div>
+                            </div>
+                            <div class="card-body" id='results'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    <script charset="utf-8" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script charset="utf-8" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js'></script>
+    <script charset="utf-8" src='https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js'></script>
+    <script charset="utf-8">
+    (function($) {
+
+        var $loginForm = $("#login-form"),
+            $logoutBtn = $("#logout-btn"),
+            $results = $("#results"),
+            $clearBtn = $("#clear-btn")
+
+
+        function showResponse(xhr) {
+            var code = xhr.status
+            var txt = xhr.responseText
+            var $legend = $("<legend />").append("Status Code: " + code)
+            var $fs = $("<fieldset />").append($("<code />").append(txt))
+            $fs.prepend($legend)
+            $results.prepend($fs)
+        }
+
+        function captureResponse($a) {
+            var method = "GET"
+            if ($a.attr("method")) {
+                method = $a.attr("method")
+            }
+            $.ajax({
+                url: $a.attr("href"),
+                type: method,
+                success: function (res, txt, xhr) {
+                    showResponse(xhr)
+                },
+                error: function (xhr) {
+                    showResponse(xhr)
+                }
+            })
+        }
+
+        function handleError(xhr, status, err) {
+
+        }
+
+        $clearBtn.click(function (e) { $results.html('') })
+
+        $("a[rel=capture]").click(function (e) {
+            e.preventDefault()
+            captureResponse($(e.target))
+        })
+
+        $logoutBtn.click(function(e) {
+            $.post("/api/logout")
+                .done(function(res, txt, xhr) { 
+                    showResponse(xhr)
+                })
+                .fail(function(res) {
+                    showResponse(xhr)
+                })
+        })
+
+        $loginForm.ajaxForm({
+            success: function (res, txt, xhr) {
+                showResponse(xhr)
+            },
+            error: function (xhr) {
+                showResponse(xhr)
+            }
+        })
+
+    })(jQuery)
+    </script>
+    </body>
+</html>

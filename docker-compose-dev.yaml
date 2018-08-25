@@ -1,0 +1,32 @@
+version: '3'
+services:
+  nginx:
+    image: jchflask/proxy
+    build:
+      context: ./docker/proxy
+    ports:
+        - 80:80
+    volumes:
+      - ./:/app
+  flask:
+    image: jchflask/flask
+    build:
+      context: ./docker/flask
+    ports:
+        - 8001:8001
+    volumes:
+      - ./api:/api
+  webpack:
+    image: jchflask/webpack
+    build:
+      context: ./docker/nodejs
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app
+    working_dir: /app
+    entrypoint:
+      - npm
+      - run
+      - dev
+      - --disableHostCheck

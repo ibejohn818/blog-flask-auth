@@ -1,13 +1,13 @@
 version: '3'
 services:
   nginx:
-    image: jchflask/proxy
+    image: jchflask/web
     build:
       context: ./docker/proxy
     ports:
         - 80:80
     volumes:
-      - ./src:/app
+      - ./dist:/app
   flask:
     image: jchflask/flask
     build:
