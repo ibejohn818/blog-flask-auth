@@ -3,7 +3,7 @@ services:
   nginx:
     image: jchflask/web
     build:
-      context: ./docker/proxy
+      context: ./docker/proxy/demo
     ports:
         - 80:80
     volumes:

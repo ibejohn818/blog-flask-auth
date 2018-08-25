@@ -21,10 +21,18 @@ def init_session():
 
 @app.route("/api/login", methods=['POST'])
 def login_post():
-    session['user'] = {}
-    session['user']['username'] = request.form.get('username', 'default user')
-    session['user']['groups'] = [ g.strip() for g in request.form.get('groups').split(',') ]
-    return jsonify(session['user'])
+    data = {
+        'result': False
+    }
+    form = request.get_json()
+    print(form)
+    if form.get('username') and form.get('groups'):
+        session['user'] = {
+            'username': form.get('username'),
+            'groups': form.get('groups')}
+        data['result'] = session['user']
+
+    return jsonify(data)
 
 @app.route("/api/logout", methods=['POST'])
 def logout_post():
@@ -39,15 +47,26 @@ def logout_post():
 @app.route("/api/session", methods=['GET'])
 def session_get():
     # abort(401)
-    print(request.__dict__)
-    data = {}
+    data = {
+        'result': False
+    }
     if session.get('user'):
-        data['username'] = session.get('user').get('username')
-        data['groups'] = session.get('user').get('groups')
+        data['result'] = session['user']
+
     return jsonify(data)
 
 
 @app.route("/api/check-member", methods=['GET'])
 @authorize(['Member'])
 def check_member():
+    return jsonify({'result': 'Good'})
+
+@app.route("/api/check-login", methods=['GET'])
+@authorize()
+def check_login():
+    return jsonify({'result': 'Good'})
+
+@app.route("/api/check-multiple", methods=['GET'])
+@authorize(['Manager', 'Subscriber'])
+def check_multiple():
     return jsonify({'result': 'Good'})
